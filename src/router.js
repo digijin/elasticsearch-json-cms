@@ -6,22 +6,22 @@ import search from "./route/search";
 export default server => {
 	server.route({
 		method: "GET",
-		path: "/ping",
+		path: "/api/ping",
 		handler: ping
 	});
 	server.route({
 		method: "GET",
-		path: "/health",
+		path: "/api/health",
 		handler: health
 	});
 	server.route({
 		method: "GET",
-		path: "/create",
+		path: "/api/create",
 		handler: create
 	});
 	server.route({
 		method: "GET",
-		path: "/search",
+		path: "/api/search",
 		handler: search
 	});
 };

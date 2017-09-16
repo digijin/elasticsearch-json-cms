@@ -5,7 +5,7 @@ export default (req, reply) => {
 	client.create(
 		{
 			index: config.index,
-			type: "mytype",
+			type: "root",
 			id: "1",
 			body: {
 				title: "Test pants",

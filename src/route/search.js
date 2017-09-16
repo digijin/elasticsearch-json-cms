@@ -3,9 +3,15 @@ import client from "../client";
 
 export default (req, reply) => {
 	client
-		.search({
-			q: "pants"
-		})
+		.search(
+			Object.assign(
+				{
+					index: config.index
+					// q: "pants"
+				},
+				req.query
+			)
+		)
 		.then(
 			function(body) {
 				// var hits = body.hits.hits;
