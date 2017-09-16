@@ -27,6 +27,30 @@
 		"elasticsearch": "^13.3.1",
 		"hapi": "^16.6.0",
 		"hapi-async-handler": "^1.0.3",
-		"nodemon": "^1.12.1"
+		"nodemon": "^1.12.1",
+		"webpack": "^3.6.0"
+	},
+	"jest": {
+		"REMOVED setupTestFrameworkScriptFile": "<rootDir>/setupTest.js",
+		"moduleFileExtensions": [
+			"js",
+			"jsx"
+		],
+		"moduleDirectories": [
+			"node_modules",
+			"src"
+		],
+		"modulePaths": [
+			"/src"
+		],
+		"moduleNameMapper": {
+			"\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+			"\\.(css|less|styl)$": "<rootDir>/__mocks__/styleMock.js"
+		},
+		"collectCoverage": false,
+		"coverageReporters": [
+			"json",
+			"lcov"
+		]
 	}
 }

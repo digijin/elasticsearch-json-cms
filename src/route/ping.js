@@ -1,4 +1,4 @@
-import client from "../client";
+import client from "../dbclient";
 
 export default (req, reply) => {
 	client.ping(
