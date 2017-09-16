@@ -6,13 +6,9 @@ export default (req, reply) => {
 		{
 			index: config.index,
 			type: "root",
-			id: "1",
+			id: "6",
 			body: {
-				title: "Test pants",
-				tags: ["y", "z"],
-				published: true,
-				published_at: "2013-01-01",
-				counter: 1
+				path: "/"
 			}
 		},
 		function(error, response) {

@@ -2,6 +2,7 @@ import ping from "./route/ping";
 import health from "./route/health";
 import create from "./route/create";
 import search from "./route/search";
+import index from "./route/index";
 
 export default server => {
 	server.route({
@@ -23,5 +24,10 @@ export default server => {
 		method: "GET",
 		path: "/api/search",
 		handler: search
+	});
+	server.route({
+		method: "POST",
+		path: "/api/index",
+		handler: index
 	});
 };
