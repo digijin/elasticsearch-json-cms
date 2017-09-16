@@ -1483,6 +1483,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
+hapi-async-handler@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/hapi-async-handler/-/hapi-async-handler-1.0.3.tgz#a656d2f476271e42ac3d0229e6b793f08e600d87"
+
 hapi@^16.6.0:
   version "16.6.0"
   resolved "https://registry.yarnpkg.com/hapi/-/hapi-16.6.0.tgz#c97cc7119a04314553883868651862fee34318ee"
