@@ -8,10 +8,8 @@
 		"dev": "webpack-dev-server",
 		"api": "nodemon --exec babel-node src/index.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"elasticsearchdocker":
-			"docker run -p 9200:9200 -p 9300:9300 -e \"discovery.type=single-node\" docker.elastic.co/elasticsearch/elasticsearch:5.6.0",
-		"health":
-			"echo 'pass is changeme' && curl -u elastic http://127.0.0.1:9200/_cat/health"
+		"elasticsearchdocker": "docker run -p 9200:9200 -p 9300:9300 -e \"discovery.type=single-node\" docker.elastic.co/elasticsearch/elasticsearch:5.6.0",
+		"health": "echo 'pass is changeme' && curl -u elastic http://127.0.0.1:9200/_cat/health"
 	},
 	"author": "",
 	"license": "ISC",
@@ -27,27 +25,41 @@
 		"babel-preset-es2015-native-generators": "^6.6.0",
 		"babel-preset-react": "^6.5.0",
 		"babel-preset-stage-0": "^6.5.0",
-		"material-ui": "^0.19.0",
-		"react": "^15.6.1",
-		"react-dom": "^15.6.1",
+		"css-loader": "^0.28.7",
 		"elasticsearch": "^13.3.1",
 		"hapi": "^16.6.0",
 		"hapi-async-handler": "^1.0.3",
+		"material-ui": "^0.19.0",
 		"nodemon": "^1.12.1",
+		"react": "^15.6.1",
+		"react-dom": "^15.6.1",
+		"style-loader": "^0.18.2",
+		"stylus": "^0.54.5",
+		"stylus-loader": "^3.0.1",
 		"webpack": "^3.6.0",
 		"webpack-dev-server": "^2.8.2"
 	},
 	"jest": {
 		"REMOVED setupTestFrameworkScriptFile": "<rootDir>/setupTest.js",
-		"moduleFileExtensions": ["js", "jsx"],
-		"moduleDirectories": ["node_modules", "src"],
-		"modulePaths": ["/src"],
+		"moduleFileExtensions": [
+			"js",
+			"jsx"
+		],
+		"moduleDirectories": [
+			"node_modules",
+			"src"
+		],
+		"modulePaths": [
+			"/src"
+		],
 		"moduleNameMapper": {
-			"\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-				"<rootDir>/__mocks__/fileMock.js",
+			"\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
 			"\\.(css|less|styl)$": "<rootDir>/__mocks__/styleMock.js"
 		},
 		"collectCoverage": false,
-		"coverageReporters": ["json", "lcov"]
+		"coverageReporters": [
+			"json",
+			"lcov"
+		]
 	}
 }
