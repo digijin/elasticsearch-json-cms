@@ -10,6 +10,15 @@ import Subheader from "material-ui/Subheader";
 import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
 
+import {
+	Card,
+	CardActions,
+	CardHeader,
+	CardMedia,
+	CardTitle,
+	CardText
+} from "material-ui/Card";
+
 export default class ItemViewer extends React.Component {
 	state: {
 		loaded: boolean,
@@ -58,65 +67,97 @@ export default class ItemViewer extends React.Component {
 	render() {
 		return (
 			<div className={this.state.loaded ? "loaded" : "loading"}>
-				<Paper style={{ padding: "30px" }}>
-					<TextField
-						disabled={true}
-						floatingLabelText="id"
-						value={this.state.id}
+				<Card>
+					<CardHeader
+						title="Details"
+						subtitle="uneditable"
+						actAsExpander={true}
+						showExpandableButton={true}
 					/>
-					<TextField
-						disabled={true}
-						floatingLabelText="type"
-						value={this.state.type}
-					/>
-					<TextField
-						disabled={true}
-						floatingLabelText="version"
-						value={this.state.version}
-					/>
-					<FlatButton label="delete" onClick={this.delete} />
-				</Paper>
-				<Paper style={{ padding: "30px" }}>
-					<TextField
-						value={this.state.content}
-						onChange={this.contentChange}
-						hintText="content"
-						multiLine={true}
-						floatingLabelText="Content"
-						errorText={this.state.contentError}
-					/>
-
-					<br />
-					<FlatButton label="Save" onClick={this.saveContent} />
-				</Paper>
-				<Paper style={{ padding: "30px" }}>
-					<Subheader>Parent</Subheader>
-					{this.state.parent ? (
-						<RaisedButton
-							label={this.state.parent}
-							onClick={() => {
-								this.changeItem(this.state.parent);
-							}}
+					<CardText expandable={true}>
+						<TextField
+							disabled={true}
+							floatingLabelText="id"
+							value={this.state.id}
 						/>
-					) : (
-						"not found"
-					)}
-					<Subheader>Children</Subheader>
-					{this.state.children.map(c => {
-						return (
+						<TextField
+							disabled={true}
+							floatingLabelText="type"
+							value={this.state.type}
+						/>
+						<TextField
+							disabled={true}
+							floatingLabelText="version"
+							value={this.state.version}
+						/>
+						<FlatButton label="delete" onClick={this.delete} />
+					</CardText>
+				</Card>
+
+				<Card>
+					<CardHeader
+						title="Content"
+						subtitle="editable"
+						actAsExpander={true}
+						showExpandableButton={true}
+					/>
+					<CardText expandable={true}>
+						<TextField
+							value={this.state.content}
+							onChange={this.contentChange}
+							hintText="content"
+							multiLine={true}
+							floatingLabelText="Content"
+							errorText={this.state.contentError}
+						/>
+
+						<br />
+						<FlatButton label="Save" onClick={this.saveContent} />
+					</CardText>
+				</Card>
+
+				<Card>
+					<CardHeader
+						title="Relationships"
+						subtitle="links to parents and children"
+						actAsExpander={true}
+						showExpandableButton={true}
+					/>
+					<CardText expandable={true}>
+						<Subheader>Parent</Subheader>
+						{this.state.parent ? (
 							<RaisedButton
-								key={c._id}
-								label={c._source.name}
+								label={this.state.parent}
 								onClick={() => {
-									this.changeItem(c._id);
+									this.changeItem(this.state.parent);
 								}}
 							/>
-						);
-					})}
-				</Paper>
-				<Paper style={{ padding: "30px" }}>
-					<div>
-						<h4>Add Child</h4>
+						) : (
+							"not found"
+						)}
+						<Subheader>Children</Subheader>
+						{this.state.children.map(c => {
+							return (
+								<RaisedButton
+									key={c._id}
+									label={c._source.name}
+									onClick={() => {
+										this.changeItem(c._id);
+									}}
+								/>
+							);
+						})}
+					</CardText>
+				</Card>
+
+				<Card>
+					<CardHeader
+						title="Add Child"
+						subtitle="add children to current node"
+						actAsExpander={true}
+						showExpandableButton={true}
+					/>
+					<CardText expandable={true}>
 						<TextField
 							value={this.state.child.name}
 							onChange={this.fieldChange}
@@ -124,8 +165,8 @@ export default class ItemViewer extends React.Component {
 						/>
 						<br />
 						<FlatButton label="Save" onClick={this.addChild} />
-					</div>
-				</Paper>
+					</CardText>
+				</Card>
 			</div>
 		);
 	}
