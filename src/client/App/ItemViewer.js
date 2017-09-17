@@ -94,29 +94,7 @@ export default class ItemViewer extends React.Component {
 					</CardText>
 				</Card>
 
-				<Card>
-					<CardHeader
-						title="Content"
-						subtitle="editable"
-						actAsExpander={true}
-						showExpandableButton={true}
-					/>
-					<CardText expandable={true}>
-						<TextField
-							value={this.state.content}
-							onChange={this.contentChange}
-							hintText="content"
-							multiLine={true}
-							floatingLabelText="Content"
-							errorText={this.state.contentError}
-						/>
-
-						<br />
-						<FlatButton label="Save" onClick={this.saveContent} />
-					</CardText>
-				</Card>
-
-				<Card>
+				<Card initiallyExpanded={true}>
 					<CardHeader
 						title="Relationships"
 						subtitle="links to parents and children"
@@ -147,6 +125,27 @@ export default class ItemViewer extends React.Component {
 								/>
 							);
 						})}
+					</CardText>
+				</Card>
+				<Card initiallyExpanded={true}>
+					<CardHeader
+						title="Content"
+						subtitle="editable"
+						actAsExpander={true}
+						showExpandableButton={true}
+					/>
+					<CardText expandable={true}>
+						<TextField
+							value={this.state.content}
+							onChange={this.contentChange}
+							hintText="content"
+							multiLine={true}
+							floatingLabelText="Content"
+							errorText={this.state.contentError}
+						/>
+
+						<br />
+						<FlatButton label="Save" onClick={this.saveContent} />
 					</CardText>
 				</Card>
 
