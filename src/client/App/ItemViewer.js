@@ -70,7 +70,7 @@ export default class ItemViewer extends React.Component {
 				<Card>
 					<CardHeader
 						title="Details"
-						subtitle="uneditable"
+						subtitle={this.state.id}
 						actAsExpander={true}
 						showExpandableButton={true}
 					/>
