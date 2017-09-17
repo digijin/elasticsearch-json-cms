@@ -17,7 +17,8 @@ export default class ItemViewer extends React.Component {
 		child: { name: string },
 		children: Array<any>,
 		source: string,
-		parent: string
+		parent: string,
+		version: number
 	};
 	props: { id: string, changeItem: Function };
 	constructor() {
@@ -34,7 +35,8 @@ export default class ItemViewer extends React.Component {
 			},
 			children: [],
 			source: "",
-			parent: "none"
+			parent: "none",
+			version: 1
 		};
 	}
 	componentWillMount() {
@@ -52,6 +54,7 @@ export default class ItemViewer extends React.Component {
 	render() {
 		return (
 			<div>
+				{this.state.loaded ? "loaded" : "loading"}
 				<table>
 					<tbody>
 						<tr>
@@ -63,14 +66,22 @@ export default class ItemViewer extends React.Component {
 							<td>{this.state.type}</td>
 						</tr>
 						<tr>
+							<td>version</td>
+							<td>{this.state.version}</td>
+						</tr>
+						<tr>
 							<td>parent</td>
 							<td>
-								<RaisedButton
-									label={this.state.parent}
-									onClick={() => {
-										this.changeItem(this.state.parent);
-									}}
-								/>
+								{this.state.parent ? (
+									<RaisedButton
+										label={this.state.parent}
+										onClick={() => {
+											this.changeItem(this.state.parent);
+										}}
+									/>
+								) : (
+									"not found"
+								)}
 							</td>
 						</tr>
 						<tr>
@@ -147,6 +158,7 @@ export default class ItemViewer extends React.Component {
 				loaded: true,
 				type: data._type,
 				parent: data._source.parent,
+				version: data._version,
 				source: JSON.stringify(data._source, null, 2)
 			});
 		});
