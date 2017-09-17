@@ -11,8 +11,11 @@ export default (req, reply) => {
 						query: {
 							match: {
 								parent: {
-									query: "root"
+									query: "root:foxsports:category:news"
 								}
+								// tag: {
+								// 	query: "soccer"
+								// }
 							}
 						}
 					}
