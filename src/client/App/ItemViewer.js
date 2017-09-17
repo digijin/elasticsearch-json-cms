@@ -16,7 +16,8 @@ export default class ItemViewer extends React.Component {
 		type: string,
 		child: { name: string },
 		children: Array<any>,
-		source: string,
+		contents: string,
+		contentError: string,
 		parent: string,
 		version: number
 	};
@@ -34,7 +35,8 @@ export default class ItemViewer extends React.Component {
 				name: ""
 			},
 			children: [],
-			source: "",
+			contents: "",
+			contentError: "",
 			parent: "none",
 			version: 1
 		};
@@ -53,8 +55,7 @@ export default class ItemViewer extends React.Component {
 
 	render() {
 		return (
-			<div>
-				{this.state.loaded ? "loaded" : "loading"}
+			<div className={this.state.loaded ? "loaded" : "loading"}>
 				<table>
 					<tbody>
 						<tr>
@@ -70,6 +71,24 @@ export default class ItemViewer extends React.Component {
 							<td>{this.state.version}</td>
 						</tr>
 						<tr>
+							<td>content</td>
+							<td>
+								<TextField
+									value={this.state.contents}
+									onChange={this.contentChange}
+									hintText="content"
+									multiLine={true}
+									floatingLabelText="Content"
+									errorText={this.state.contentError}
+								/>
+								<br />
+								<FlatButton
+									label="Save"
+									onClick={this.saveContent}
+								/>
+							</td>
+						</tr>
+						<tr>
 							<td>parent</td>
 							<td>
 								{this.state.parent ? (
@@ -83,10 +102,6 @@ export default class ItemViewer extends React.Component {
 									"not found"
 								)}
 							</td>
-						</tr>
-						<tr>
-							<td>source</td>
-							<td>{this.state.source}</td>
 						</tr>
 						<tr>
 							<td>children</td>
@@ -124,6 +139,17 @@ export default class ItemViewer extends React.Component {
 	fieldChange = (e: Event) => {
 		this.setState({ child: { name: e.target.value } });
 	};
+	contentChange = (e: Event) => {
+		let contents = e.target.value;
+		let contentError = "";
+		try {
+			let json = JSON.parse(contents);
+		} catch (e) {
+			contentError = "invalid json";
+		}
+
+		this.setState({ contents: contents, contentError: contentError });
+	};
 	addChild = () => {
 		console.log(this.state.child.name);
 		let child = {
@@ -132,6 +158,7 @@ export default class ItemViewer extends React.Component {
 			body: this.state.child
 		};
 		child.body.parent = this.state.id;
+		child.body.contents = {};
 		request(
 			{
 				method: "POST",
@@ -144,6 +171,35 @@ export default class ItemViewer extends React.Component {
 			}
 		);
 	};
+	saveContent = () => {
+		let json;
+		try {
+			json = JSON.parse(this.state.contents);
+		} catch (e) {
+			// contentError = "invalid json";
+			alert("won't save. invalid json.");
+			return;
+		}
+		let data = {
+			type: this.state.type,
+			id: this.state.id,
+			body: {
+				parent: this.state.parent,
+				contents: json
+			}
+		};
+		request(
+			{
+				method: "POST",
+				url: "/api/index",
+				body: JSON.stringify(data)
+			},
+			(err, res, body) => {
+				console.log(body);
+				// this.loadChildren();
+			}
+		);
+	};
 	componentDidMount() {
 		this.loadSelf();
 		this.loadChildren();
@@ -152,14 +208,14 @@ export default class ItemViewer extends React.Component {
 		request("/api/get?id=" + this.state.id, (err, res) => {
 			// console.log(err, res);
 			let data = JSON.parse(res.body);
-			// console.log(data);
+			console.log("self", data);
 			this.setState({
 				// raw: data,
 				loaded: true,
 				type: data._type,
 				parent: data._source.parent,
 				version: data._version,
-				source: JSON.stringify(data._source, null, 2)
+				contents: JSON.stringify(data._source.contents, null, 2)
 			});
 		});
 	}
