@@ -7,8 +7,15 @@ export default (req, reply) => {
 			Object.assign(
 				{
 					index: config.index,
-					_id: "root"
-					// q: "pants"
+					body: {
+						query: {
+							match: {
+								parent: {
+									query: "root"
+								}
+							}
+						}
+					}
 				},
 				req.query
 			)

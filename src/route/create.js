@@ -5,10 +5,10 @@ export default (req, reply) => {
 	client.create(
 		{
 			index: config.index,
-			type: "root",
-			id: "/",
+			type: "test",
+			id: "root",
 			body: {
-				path: "/"
+				path: "root"
 			}
 		},
 		function(error, response) {

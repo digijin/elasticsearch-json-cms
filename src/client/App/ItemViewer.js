@@ -56,9 +56,10 @@ export default class ItemViewer extends React.Component {
 		console.log(this.state.child.name);
 		let child = {
 			type: "child",
-			id: this.props.id + this.state.child.name + "/",
+			id: this.props.id + ":" + this.state.child.name,
 			body: this.state.child
 		};
+		child.body.parent = this.props.id;
 		request(
 			{
 				method: "POST",
