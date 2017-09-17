@@ -3,6 +3,7 @@ import health from "./route/health";
 import create from "./route/create";
 import search from "./route/search";
 import index from "./route/index";
+import get from "./route/get";
 
 export default server => {
 	server.route({
@@ -26,8 +27,13 @@ export default server => {
 		handler: search
 	});
 	server.route({
-		method: "POST",
+		method: ["PUT", "POST", "GET"],
 		path: "/api/index",
 		handler: index
+	});
+	server.route({
+		method: "GET",
+		path: "/api/get",
+		handler: get
 	});
 };

@@ -3,12 +3,12 @@ import client from "../dbclient";
 
 export default (req, reply) => {
 	client
-		.search(
+		.get(
 			Object.assign(
 				{
 					index: config.index,
-					_id: "root"
-					// q: "pants"
+					type: "_all",
+					id: "/"
 				},
 				req.query
 			)
