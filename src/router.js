@@ -4,6 +4,7 @@ import create from "./route/create";
 import search from "./route/search";
 import index from "./route/index";
 import get from "./route/get";
+import children from "./route/children";
 
 export default server => {
 	server.route({
@@ -35,5 +36,10 @@ export default server => {
 		method: "GET",
 		path: "/api/get",
 		handler: get
+	});
+	server.route({
+		method: "GET",
+		path: "/api/children",
+		handler: children
 	});
 };

@@ -7,9 +7,15 @@ import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
 
 import FlatButton from "material-ui/FlatButton";
+import RaisedButton from "material-ui/RaisedButton";
 
 export default class ItemViewer extends React.Component {
-	state: { type: string, child: { name: string } };
+	state: {
+		type: string,
+		child: { name: string },
+		children: Array<any>,
+		source: string
+	};
 	props: { id: string };
 	constructor() {
 		super();
@@ -17,7 +23,9 @@ export default class ItemViewer extends React.Component {
 			type: "-",
 			child: {
 				name: ""
-			}
+			},
+			children: [],
+			source: ""
 		};
 	}
 	componentWillMount() {}
@@ -25,14 +33,33 @@ export default class ItemViewer extends React.Component {
 		return (
 			<div>
 				<table>
-					<tr>
-						<td>id</td>
-						<td>{this.props.id}</td>
-					</tr>
-					<tr>
-						<td>type</td>
-						<td>{this.state.type}</td>
-					</tr>
+					<tbody>
+						<tr>
+							<td>id</td>
+							<td>{this.props.id}</td>
+						</tr>
+						<tr>
+							<td>type</td>
+							<td>{this.state.type}</td>
+						</tr>
+						<tr>
+							<td>source</td>
+							<td>{this.state.source}</td>
+						</tr>
+						<tr>
+							<td>children</td>
+							<td>
+								{this.state.children.map(c => {
+									return (
+										<RaisedButton
+											key={c._id}
+											label={c._source.name}
+										/>
+									);
+								})}
+							</td>
+						</tr>
+					</tbody>
 				</table>
 				<Paper>
 					<div style={{ padding: "30px" }}>
@@ -68,17 +95,31 @@ export default class ItemViewer extends React.Component {
 			},
 			(err, res, body) => {
 				console.log(body);
+				this.loadChildren();
 			}
 		);
 	};
 	componentDidMount() {
 		this.loadSelf();
+		this.loadChildren();
 	}
 	loadSelf() {
 		request("/api/get?id=" + this.props.id, (err, res) => {
-			console.log(err, res);
+			// console.log(err, res);
 			let data = JSON.parse(res.body);
-			this.setState({ type: data._type });
+			// console.log(data);
+			this.setState({
+				// raw: data,
+				type: data._type,
+				source: JSON.stringify(data._source, null, 2)
+			});
+		});
+	}
+	loadChildren() {
+		request("/api/children?parent=" + this.props.id, (err, res) => {
+			// console.log(err, res);
+			let data = JSON.parse(res.body);
+			this.setState({ children: data });
 		});
 	}
 }

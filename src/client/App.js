@@ -11,6 +11,7 @@ export default class App {
 		this.container = container;
 		// container.innerHTML = "asd";
 		this.render();
+		this.state = { id: "root" };
 	}
 	render() {
 		ReactDOM.render(
@@ -18,7 +19,7 @@ export default class App {
 				<MuiThemeProvider>
 					<div>
 						<SideNav />
-						<ItemViewer type="root" id="root" />
+						<ItemViewer id="root" />
 					</div>
 				</MuiThemeProvider>
 			</div>,
