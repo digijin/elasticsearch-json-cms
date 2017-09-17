@@ -10,8 +10,9 @@ export default class App {
 	constructor(container) {
 		this.container = container;
 		// container.innerHTML = "asd";
-		this.render();
 		this.state = { id: "root" };
+
+		this.render();
 	}
 	render() {
 		ReactDOM.render(
@@ -19,11 +20,19 @@ export default class App {
 				<MuiThemeProvider>
 					<div>
 						<SideNav />
-						<ItemViewer id="root" />
+						<ItemViewer
+							// changeItem={this.changeItem}
+							id={this.state.id}
+						/>
 					</div>
 				</MuiThemeProvider>
 			</div>,
 			this.container
 		);
 	}
+	// changeItem = (id: string) => {
+	// 	// this.setState({ id });
+	// 	this.state = { id };
+	// 	this.render();
+	// };
 }

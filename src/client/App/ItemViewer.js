@@ -11,15 +11,20 @@ import RaisedButton from "material-ui/RaisedButton";
 
 export default class ItemViewer extends React.Component {
 	state: {
+		id: string,
 		type: string,
 		child: { name: string },
 		children: Array<any>,
 		source: string
 	};
-	props: { id: string };
+	props: { id: string, changeItem: Function };
 	constructor() {
 		super();
-		this.state = {
+		this.state = this.baseState();
+	}
+	baseState() {
+		return {
+			id: "",
 			type: "-",
 			child: {
 				name: ""
@@ -28,7 +33,17 @@ export default class ItemViewer extends React.Component {
 			source: ""
 		};
 	}
-	componentWillMount() {}
+	componentWillMount() {
+		// console.log(this.props);
+		this.state.id = this.props.id;
+	}
+	changeItem = (id: string) => {
+		//hard set it
+		this.state = Object.assign(this.baseState(), { id });
+		this.loadSelf();
+		this.loadChildren();
+	};
+
 	render() {
 		return (
 			<div>
@@ -36,7 +51,7 @@ export default class ItemViewer extends React.Component {
 					<tbody>
 						<tr>
 							<td>id</td>
-							<td>{this.props.id}</td>
+							<td>{this.state.id}</td>
 						</tr>
 						<tr>
 							<td>type</td>
@@ -54,6 +69,9 @@ export default class ItemViewer extends React.Component {
 										<RaisedButton
 											key={c._id}
 											label={c._source.name}
+											onClick={() => {
+												this.changeItem(c._id);
+											}}
 										/>
 									);
 								})}
@@ -83,10 +101,10 @@ export default class ItemViewer extends React.Component {
 		console.log(this.state.child.name);
 		let child = {
 			type: "child",
-			id: this.props.id + ":" + this.state.child.name,
+			id: this.state.id + ":" + this.state.child.name,
 			body: this.state.child
 		};
-		child.body.parent = this.props.id;
+		child.body.parent = this.state.id;
 		request(
 			{
 				method: "POST",
@@ -104,7 +122,7 @@ export default class ItemViewer extends React.Component {
 		this.loadChildren();
 	}
 	loadSelf() {
-		request("/api/get?id=" + this.props.id, (err, res) => {
+		request("/api/get?id=" + this.state.id, (err, res) => {
 			// console.log(err, res);
 			let data = JSON.parse(res.body);
 			// console.log(data);
@@ -116,7 +134,7 @@ export default class ItemViewer extends React.Component {
 		});
 	}
 	loadChildren() {
-		request("/api/children?parent=" + this.props.id, (err, res) => {
+		request("/api/children?parent=" + this.state.id, (err, res) => {
 			// console.log(err, res);
 			let data = JSON.parse(res.body);
 			this.setState({ children: data });
