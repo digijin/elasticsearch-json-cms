@@ -16,7 +16,8 @@ export default class ItemViewer extends React.Component {
 		type: string,
 		child: { name: string },
 		children: Array<any>,
-		contents: string,
+		content: string,
+		name: string,
 		contentError: string,
 		parent: string,
 		version: number
@@ -35,7 +36,7 @@ export default class ItemViewer extends React.Component {
 				name: ""
 			},
 			children: [],
-			contents: "",
+			content: "",
 			contentError: "",
 			parent: "none",
 			version: 1
@@ -74,7 +75,7 @@ export default class ItemViewer extends React.Component {
 							<td>content</td>
 							<td>
 								<TextField
-									value={this.state.contents}
+									value={this.state.content}
 									onChange={this.contentChange}
 									hintText="content"
 									multiLine={true}
@@ -140,15 +141,15 @@ export default class ItemViewer extends React.Component {
 		this.setState({ child: { name: e.target.value } });
 	};
 	contentChange = (e: Event) => {
-		let contents = e.target.value;
+		let content = e.target.value;
 		let contentError = "";
 		try {
-			let json = JSON.parse(contents);
+			let json = JSON.parse(content);
 		} catch (e) {
 			contentError = "invalid json";
 		}
 
-		this.setState({ contents: contents, contentError: contentError });
+		this.setState({ content: content, contentError: contentError });
 	};
 	addChild = () => {
 		console.log(this.state.child.name);
@@ -158,7 +159,7 @@ export default class ItemViewer extends React.Component {
 			body: this.state.child
 		};
 		child.body.parent = this.state.id;
-		child.body.contents = {};
+		child.body.content = {};
 		request(
 			{
 				method: "POST",
@@ -174,7 +175,7 @@ export default class ItemViewer extends React.Component {
 	saveContent = () => {
 		let json;
 		try {
-			json = JSON.parse(this.state.contents);
+			json = JSON.parse(this.state.content);
 		} catch (e) {
 			// contentError = "invalid json";
 			alert("won't save. invalid json.");
@@ -185,7 +186,8 @@ export default class ItemViewer extends React.Component {
 			id: this.state.id,
 			body: {
 				parent: this.state.parent,
-				contents: json
+				name: this.state.name,
+				content: json
 			}
 		};
 		request(
@@ -215,7 +217,8 @@ export default class ItemViewer extends React.Component {
 				type: data._type,
 				parent: data._source.parent,
 				version: data._version,
-				contents: JSON.stringify(data._source.contents, null, 2)
+				name: data._source.name,
+				content: JSON.stringify(data._source.content, null, 2)
 			});
 		});
 	}

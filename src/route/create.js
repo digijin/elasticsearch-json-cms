@@ -9,7 +9,7 @@ export default (req, reply) => {
 			id: "root",
 			body: {
 				path: "root",
-				contents: { testing: "some data here" }
+				content: { testing: "some data here" }
 			}
 		},
 		function(error, response) {
