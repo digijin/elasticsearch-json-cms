@@ -3,8 +3,7 @@ import ReactDOM from "react-dom";
 
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
-import SideNav from "App/SideNav";
-import ItemViewer from "App/ItemViewer";
+import Container from "App/Container";
 
 export default class App {
 	constructor(container) {
@@ -18,13 +17,7 @@ export default class App {
 		ReactDOM.render(
 			<div>
 				<MuiThemeProvider>
-					<div>
-						<SideNav />
-						<ItemViewer
-							// changeItem={this.changeItem}
-							id={this.state.id}
-						/>
-					</div>
+					<Container />
 				</MuiThemeProvider>
 			</div>,
 			this.container

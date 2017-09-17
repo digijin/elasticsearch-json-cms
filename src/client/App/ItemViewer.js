@@ -11,11 +11,13 @@ import RaisedButton from "material-ui/RaisedButton";
 
 export default class ItemViewer extends React.Component {
 	state: {
+		loaded: boolean,
 		id: string,
 		type: string,
 		child: { name: string },
 		children: Array<any>,
-		source: string
+		source: string,
+		parent: string
 	};
 	props: { id: string, changeItem: Function };
 	constructor() {
@@ -24,13 +26,15 @@ export default class ItemViewer extends React.Component {
 	}
 	baseState() {
 		return {
+			loaded: false,
 			id: "",
 			type: "-",
 			child: {
 				name: ""
 			},
 			children: [],
-			source: ""
+			source: "",
+			parent: "none"
 		};
 	}
 	componentWillMount() {
@@ -40,6 +44,7 @@ export default class ItemViewer extends React.Component {
 	changeItem = (id: string) => {
 		//hard set it
 		this.state = Object.assign(this.baseState(), { id });
+		this.setState({ loaded: false });
 		this.loadSelf();
 		this.loadChildren();
 	};
@@ -56,6 +61,17 @@ export default class ItemViewer extends React.Component {
 						<tr>
 							<td>type</td>
 							<td>{this.state.type}</td>
+						</tr>
+						<tr>
+							<td>parent</td>
+							<td>
+								<RaisedButton
+									label={this.state.parent}
+									onClick={() => {
+										this.changeItem(this.state.parent);
+									}}
+								/>
+							</td>
 						</tr>
 						<tr>
 							<td>source</td>
@@ -128,7 +144,9 @@ export default class ItemViewer extends React.Component {
 			// console.log(data);
 			this.setState({
 				// raw: data,
+				loaded: true,
 				type: data._type,
+				parent: data._source.parent,
 				source: JSON.stringify(data._source, null, 2)
 			});
 		});
