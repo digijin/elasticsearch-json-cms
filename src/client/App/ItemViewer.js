@@ -24,7 +24,7 @@ export default class ItemViewer extends React.Component {
 		loaded: boolean,
 		id: string,
 		type: string,
-		child: { name: string },
+		child: { name: string, type: string, content: string },
 		children: Array<any>,
 		content: string,
 		name: string,
@@ -43,7 +43,9 @@ export default class ItemViewer extends React.Component {
 			id: "",
 			type: "-",
 			child: {
-				name: ""
+				name: "",
+				type: "child",
+				content: "{}"
 			},
 			children: [],
 			content: "",
@@ -160,7 +162,17 @@ export default class ItemViewer extends React.Component {
 						<TextField
 							value={this.state.child.name}
 							onChange={this.fieldChange}
-							hintText="name"
+							floatingLabelText="name"
+						/>
+						<TextField
+							value={this.state.child.type}
+							onChange={this.fieldChange}
+							floatingLabelText="type"
+						/>
+						<TextField
+							value={this.state.child.content}
+							onChange={this.fieldChange}
+							floatingLabelText="content"
 						/>
 						<br />
 						<FlatButton label="Save" onClick={this.addChild} />

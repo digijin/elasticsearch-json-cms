@@ -7,6 +7,7 @@
 		"start": "babel-node src/index.js",
 		"dev": "webpack-dev-server",
 		"api": "nodemon --exec babel-node src/index.js",
+		"endpoint": "nodemon --exec babel-node src/endpoint/index.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"elasticsearchdocker": "docker run -p 9200:9200 -p 9300:9300 -e \"discovery.type=single-node\" docker.elastic.co/elasticsearch/elasticsearch:5.6.0",
 		"health": "echo 'pass is changeme' && curl -u elastic http://127.0.0.1:9200/_cat/health"
@@ -30,6 +31,7 @@
 		"elasticsearch": "^13.3.1",
 		"hapi": "^16.6.0",
 		"hapi-async-handler": "^1.0.3",
+		"koa": "^2.3.0",
 		"material-ui": "^0.19.0",
 		"nodemon": "^1.12.1",
 		"react": "^15.6.1",
