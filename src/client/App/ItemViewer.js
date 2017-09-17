@@ -57,6 +57,7 @@ export default class ItemViewer extends React.Component {
 	render() {
 		return (
 			<div className={this.state.loaded ? "loaded" : "loading"}>
+				<FlatButton label="delete" onClick={this.delete} />
 				<table>
 					<tbody>
 						<tr>
@@ -201,6 +202,15 @@ export default class ItemViewer extends React.Component {
 				// this.loadChildren();
 			}
 		);
+	};
+	delete = () => {
+		if (confirm("are you sure you want to delete " + this.state.id + "?")) {
+			request(
+				"/api/delete?id=" + this.state.id + "&type=" + this.state.type,
+				() => {}
+			);
+			this.changeItem("root");
+		}
 	};
 	componentDidMount() {
 		this.loadSelf();
