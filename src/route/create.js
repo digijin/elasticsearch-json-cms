@@ -6,7 +6,7 @@ export default (req, reply) => {
 		{
 			index: config.index,
 			type: "root",
-			id: "6",
+			id: "/",
 			body: {
 				path: "/"
 			}

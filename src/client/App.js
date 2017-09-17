@@ -18,7 +18,7 @@ export default class App {
 				<MuiThemeProvider>
 					<div>
 						<SideNav />
-						<ItemViewer />
+						<ItemViewer type="root" id="/" />
 					</div>
 				</MuiThemeProvider>
 			</div>,
