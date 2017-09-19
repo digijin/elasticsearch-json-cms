@@ -15,15 +15,15 @@ const DIVIDER = ":";
 let styles = {
 	card: {
 		card: {
-			"margin-bottom": 10
+			marginBottom: 10
 		},
 		header: {
-			"background-color": "#81d4fa",
+			backgroundColor: "#81d4fa",
 			padding: "8px 10px"
 		},
 		text: {
-			"padding-top": 0,
-			"padding-bottom": 10
+			paddingTop: 0,
+			paddingBottom: 10
 		}
 	}
 };
@@ -117,7 +117,7 @@ export default class ItemViewer extends React.Component {
 						})}
 
 						<Subheader>Children</Subheader>
-						<div style={{ "min-height": 36 }}>
+						<div style={{ minHeight: 36 }}>
 							{this.state.children.map(c => {
 								return (
 									<RaisedButton
@@ -175,16 +175,19 @@ export default class ItemViewer extends React.Component {
 						<TextField
 							value={this.state.child.name}
 							onChange={this.fieldChange}
+							name={"name"}
 							floatingLabelText="name"
 						/>
 						<TextField
 							value={this.state.child.type}
 							onChange={this.fieldChange}
+							name={"type"}
 							floatingLabelText="type"
 						/>
 						<TextField
 							value={this.state.child.content}
 							onChange={this.fieldChange}
+							name={"content"}
 							floatingLabelText="content"
 						/>
 						<br />
@@ -195,7 +198,9 @@ export default class ItemViewer extends React.Component {
 		);
 	}
 	fieldChange = (e: Event) => {
-		this.setState({ child: { name: e.target.value } });
+		let newState = {};
+		newState[e.target.name] = e.target.value;
+		this.setState({ child: newState });
 	};
 	contentChange = (e: Event) => {
 		let content = e.target.value;
@@ -209,12 +214,13 @@ export default class ItemViewer extends React.Component {
 		this.setState({ content: content, contentError: contentError });
 	};
 	addChild = () => {
-		console.log(this.state.child.name);
+		// console.log(this.state.child.name);
 		let child = {
 			type: "child",
 			id: this.state.id + DIVIDER + this.state.child.name,
-			body: this.state.child
+			body: Object.assign({}, this.state.child)
 		};
+
 		child.body.parent = this.state.id;
 		child.body.content = {};
 		request(
