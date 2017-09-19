@@ -96,7 +96,20 @@ export default class ItemViewer extends React.Component {
 						style={styles.card.header}
 					/>
 					<CardText expandable={true} style={styles.card.text}>
-						<Subheader>Path</Subheader>
+						<Subheader>
+							Path{" "}
+							<a
+								style={{ color: "black" }}
+								href={
+									"localhost:7000" +
+									this.state.id
+										.replace("root:", "/")
+										.replace(":", "/")
+								}
+							>
+								{this.state.id}
+							</a>
+						</Subheader>
 						{this.state.id.split(DIVIDER).map((c, i, a) => {
 							let path = a.slice(0, i).join(DIVIDER);
 							if (path.length > 0) {
