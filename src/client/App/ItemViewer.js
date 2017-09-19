@@ -87,24 +87,6 @@ export default class ItemViewer extends React.Component {
 	render() {
 		return (
 			<div className={this.state.loaded ? "loaded" : "loading"}>
-				<Card style={styles.card.card}>
-					<CardHeader
-						title="Details"
-						subtitle={this.state.id}
-						actAsExpander={true}
-						showExpandableButton={true}
-						style={styles.card.header}
-					/>
-					<CardText expandable={true}>
-						id:{this.state.id}
-						<br />
-						type:{this.state.type}
-						<br />
-						version:{this.state.version}
-						<FlatButton label="delete" onClick={this.delete} />
-					</CardText>
-				</Card>
-
 				<Card style={styles.card.card} initiallyExpanded={true}>
 					<CardHeader
 						title="Relationships"
@@ -176,6 +158,8 @@ export default class ItemViewer extends React.Component {
 
 						<br />
 						<FlatButton label="Save" onClick={this.saveContent} />
+
+						<FlatButton label="delete" onClick={this.delete} />
 					</CardText>
 				</Card>
 
