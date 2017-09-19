@@ -1,21 +1,9 @@
-import Hapi from "hapi";
+const Koa = require("koa");
+const app = new Koa();
 
-import router from "./router";
-
-const server = new Hapi.Server();
-server.connection({
-	host: "localhost",
-	port: "8000"
+// response
+app.use(ctx => {
+	ctx.body = "Hello Koa";
 });
-// server.register([require("hapi-async-handler")], function(error) {
-// 	console.log(error);
-// });
 
-router(server);
-
-server.start(err => {
-	if (err) {
-		throw err;
-	}
-	console.log("Server running at:", server.info.uri);
-});
+app.listen(8000);

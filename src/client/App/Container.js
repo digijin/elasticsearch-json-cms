@@ -8,9 +8,9 @@ export default class Container extends React.Component {
 		this.state = { id: "root" };
 	}
 	render() {
+		// <SideNav />
 		return (
 			<div>
-				<SideNav />
 				<ItemViewer
 					// changeItem={this.changeItem}
 					id={this.state.id}

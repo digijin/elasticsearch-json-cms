@@ -10,6 +10,17 @@ import Subheader from "material-ui/Subheader";
 import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
 
+const DIVIDER = ":";
+
+let styles = {
+	card: {
+		header: {
+			"background-color": "#81d4fa",
+			padding: "8px 10px"
+		}
+	}
+};
+
 import {
 	Card,
 	CardActions,
@@ -29,7 +40,7 @@ export default class ItemViewer extends React.Component {
 		content: string,
 		name: string,
 		contentError: string,
-		parent: string,
+		parent?: string,
 		version: number
 	};
 	props: { id: string, changeItem: Function };
@@ -50,7 +61,7 @@ export default class ItemViewer extends React.Component {
 			children: [],
 			content: "",
 			contentError: "",
-			parent: "none",
+			// parent: "none",
 			version: 1
 		};
 	}
@@ -75,6 +86,7 @@ export default class ItemViewer extends React.Component {
 						subtitle={this.state.id}
 						actAsExpander={true}
 						showExpandableButton={true}
+						style={styles.card.header}
 					/>
 					<CardText expandable={true}>
 						<TextField
@@ -102,19 +114,32 @@ export default class ItemViewer extends React.Component {
 						subtitle="links to parents and children"
 						actAsExpander={true}
 						showExpandableButton={true}
+						style={styles.card.header}
 					/>
 					<CardText expandable={true}>
-						<Subheader>Parent</Subheader>
+						<Subheader>Path</Subheader>
 						{this.state.parent ? (
-							<RaisedButton
-								label={this.state.parent}
-								onClick={() => {
-									this.changeItem(this.state.parent);
-								}}
-							/>
+							this.state.parent.split(DIVIDER).map((c, i, a) => {
+								let path = a.slice(0, i).join(DIVIDER);
+								if (path.length > 0) {
+									path += DIVIDER;
+								}
+								path += c;
+								// console.log(c, i, a, path);
+
+								return (
+									<RaisedButton
+										label={c}
+										onClick={() => {
+											this.changeItem(path);
+										}}
+									/>
+								);
+							})
 						) : (
-							"not found"
+							""
 						)}
+						<RaisedButton label={this.state.name} disabled={true} />
 						<Subheader>Children</Subheader>
 						{this.state.children.map(c => {
 							return (
@@ -135,6 +160,7 @@ export default class ItemViewer extends React.Component {
 						subtitle="editable"
 						actAsExpander={true}
 						showExpandableButton={true}
+						style={styles.card.header}
 					/>
 					<CardText expandable={true}>
 						<TextField
@@ -157,6 +183,7 @@ export default class ItemViewer extends React.Component {
 						subtitle="add children to current node"
 						actAsExpander={true}
 						showExpandableButton={true}
+						style={styles.card.header}
 					/>
 					<CardText expandable={true}>
 						<TextField
@@ -199,7 +226,7 @@ export default class ItemViewer extends React.Component {
 		console.log(this.state.child.name);
 		let child = {
 			type: "child",
-			id: this.state.id + ":" + this.state.child.name,
+			id: this.state.id + DIVIDER + this.state.child.name,
 			body: this.state.child
 		};
 		child.body.parent = this.state.id;
@@ -263,7 +290,7 @@ export default class ItemViewer extends React.Component {
 		request("/api/get?id=" + this.state.id, (err, res) => {
 			// console.log(err, res);
 			let data = JSON.parse(res.body);
-			console.log("self", data);
+			// console.log("self", data);
 			this.setState({
 				// raw: data,
 				loaded: true,
