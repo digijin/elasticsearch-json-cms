@@ -14,9 +14,16 @@ const DIVIDER = ":";
 
 let styles = {
 	card: {
+		card: {
+			"margin-bottom": 10
+		},
 		header: {
 			"background-color": "#81d4fa",
 			padding: "8px 10px"
+		},
+		text: {
+			"padding-top": 0,
+			"padding-bottom": 10
 		}
 	}
 };
@@ -80,7 +87,7 @@ export default class ItemViewer extends React.Component {
 	render() {
 		return (
 			<div className={this.state.loaded ? "loaded" : "loading"}>
-				<Card>
+				<Card style={styles.card.card}>
 					<CardHeader
 						title="Details"
 						subtitle={this.state.id}
@@ -89,26 +96,16 @@ export default class ItemViewer extends React.Component {
 						style={styles.card.header}
 					/>
 					<CardText expandable={true}>
-						<TextField
-							disabled={true}
-							floatingLabelText="id"
-							value={this.state.id}
-						/>
-						<TextField
-							disabled={true}
-							floatingLabelText="type"
-							value={this.state.type}
-						/>
-						<TextField
-							disabled={true}
-							floatingLabelText="version"
-							value={this.state.version}
-						/>
+						id:{this.state.id}
+						<br />
+						type:{this.state.type}
+						<br />
+						version:{this.state.version}
 						<FlatButton label="delete" onClick={this.delete} />
 					</CardText>
 				</Card>
 
-				<Card initiallyExpanded={true}>
+				<Card style={styles.card.card} initiallyExpanded={true}>
 					<CardHeader
 						title="Relationships"
 						subtitle="links to parents and children"
@@ -116,45 +113,44 @@ export default class ItemViewer extends React.Component {
 						showExpandableButton={true}
 						style={styles.card.header}
 					/>
-					<CardText expandable={true}>
+					<CardText expandable={true} style={styles.card.text}>
 						<Subheader>Path</Subheader>
-						{this.state.parent ? (
-							this.state.parent.split(DIVIDER).map((c, i, a) => {
-								let path = a.slice(0, i).join(DIVIDER);
-								if (path.length > 0) {
-									path += DIVIDER;
-								}
-								path += c;
-								// console.log(c, i, a, path);
+						{this.state.id.split(DIVIDER).map((c, i, a) => {
+							let path = a.slice(0, i).join(DIVIDER);
+							if (path.length > 0) {
+								path += DIVIDER;
+							}
+							path += c;
+							// console.log(c, i, a, path);
 
-								return (
-									<RaisedButton
-										label={c}
-										onClick={() => {
-											this.changeItem(path);
-										}}
-									/>
-								);
-							})
-						) : (
-							""
-						)}
-						<RaisedButton label={this.state.name} disabled={true} />
-						<Subheader>Children</Subheader>
-						{this.state.children.map(c => {
 							return (
 								<RaisedButton
-									key={c._id}
-									label={c._source.name}
+									label={c}
+									disabled={i == a.length - 1}
 									onClick={() => {
-										this.changeItem(c._id);
+										this.changeItem(path);
 									}}
 								/>
 							);
 						})}
+
+						<Subheader>Children</Subheader>
+						<div style={{ "min-height": 36 }}>
+							{this.state.children.map(c => {
+								return (
+									<RaisedButton
+										key={c._id}
+										label={c._source.name}
+										onClick={() => {
+											this.changeItem(c._id);
+										}}
+									/>
+								);
+							})}
+						</div>
 					</CardText>
 				</Card>
-				<Card initiallyExpanded={true}>
+				<Card style={styles.card.card} initiallyExpanded={true}>
 					<CardHeader
 						title="Content"
 						subtitle="editable"
@@ -162,7 +158,13 @@ export default class ItemViewer extends React.Component {
 						showExpandableButton={true}
 						style={styles.card.header}
 					/>
-					<CardText expandable={true}>
+					<CardText expandable={true} style={styles.card.text}>
+						<TextField
+							value={this.state.version}
+							disabled={true}
+							floatingLabelText="Version"
+						/>
+						<br />
 						<TextField
 							value={this.state.content}
 							onChange={this.contentChange}
@@ -177,7 +179,7 @@ export default class ItemViewer extends React.Component {
 					</CardText>
 				</Card>
 
-				<Card>
+				<Card style={styles.card.card}>
 					<CardHeader
 						title="Add Child"
 						subtitle="add children to current node"
